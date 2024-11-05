@@ -1,0 +1,108 @@
+{% extends 'admin/adminbase.html' %}
+{% block content %}
+
+
+<div class="table-agile-info">
+  <div class="row">
+    <form action="{% url 'getExam_date' %}" method="get">
+      <div class="col-md-4">
+        <input type="date" name="search_date" class="form-control">
+      </div>
+      <div class="col-md-2">
+        <button class="btn btn-success" type="submit">Go!</button>
+      </div>
+    </form>
+
+  </div>
+
+  <div class="panel panel-default" style="margin-top: 5px;">
+
+    <div class="panel-heading">
+      Exam Details
+    </div>
+    <div>
+      <table class="table" ui-jq="footable" ui-options='{
+           "paging": {
+             "enabled": true
+           },
+           "filtering": {
+             "enabled": true
+           },
+           "sorting": {
+             "enabled": true
+           }}'>
+        <thead>
+          <tr>
+            <th data-breakpoints="xs">Semester</th>
+            <th>Course</th>
+            <th>Subject</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Duration</th>
+            <th></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% if ex %}
+          {% for e in ex %}
+          <tr data-expanded="true">
+
+            <td>{{e.Semester}}</td>
+            <td>{{e.subject.courseid.course}}</td>
+            <td>{{e.subject.subject}}</td>
+            <td>{{e.Date.Date_of_exam}}</td>
+            <td>{{e.Time}}</td>
+            <td>{{e.Duration}}</td>
+
+            <td><a href="{% url 'edit_exam' e.id %}"><i class="fa fa-pencil" style="font-size: 2em;"></i></a></td>
+            <td><a href="{% url 'delete_exam' e.id %}"
+                onclick="return confirm('Are you sure to delete this record?')"><i class="fa fa-trash"
+                  style="font-size: 2em;color: red;"></i></a></td>
+
+          </tr>
+          {% endfor %}
+
+          {% else %}
+          <tr>
+            <td colspan="7" style="text-align: center;">Exam details is empty</td>
+          </tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <footer class="panel-footer">
+    <div class="row">
+
+      <div class="col-sm-5 text-center">
+        <small class="text-muted inline m-t-sm m-b-sm">
+          Page{{ex.number}} of {{ex.paginator.num_pages }}.
+        </small>
+      </div>
+      <div class="col-sm-7 text-right text-center-xs">
+        <ul class="pagination pagination-sm m-t-none m-b-none">
+          {% if ex.has_previous %}
+          <li> <a href="?page=1">&laquo;</a></li>
+          <li><a href="?page={{ex.previous_page_number}}">{{ex.previous_page_number}}</a></li>
+
+          {% endif %}
+
+          {% for num in ex.paginator.page_range %}
+          {% if ex.number == num %}
+          <li><a href="" class="active">{{ num }}</a></li>
+          {% elif num > ex.number|add:-5 and ex < ex.number|add:5 %} <a href="?page={{ num }}">{{ num }}</a>
+            {% endif %}
+            {% endfor %}
+
+            {% if ex.has_next %}
+            <li> <a href="?page={{ ex.next_page_number }}">{{ ex.next_page_number }}</a></li>
+            <li><a href="?page={{ ex.paginator.num_pages }}"> &raquo;</a></li>
+            {% endif %}
+        </ul>
+      </div>
+    </div>
+  </footer>
+</div>
+</div>
+{% endblock %}

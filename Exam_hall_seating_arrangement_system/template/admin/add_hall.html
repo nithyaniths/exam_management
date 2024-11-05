@@ -1,0 +1,111 @@
+{% extends 'admin/adminbase.html' %}
+{% block content %}
+
+
+
+{% if ha %}
+{% for h in ha %}
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <section class="panel">
+            <header class="panel-heading">
+                Modify Hall
+                <span class="tools pull-right">
+                    <a class="fa fa-chevron-down" href="javascript:;"></a>
+                    
+                 </span>
+            </header>
+            <div class="panel-body">
+                <div class=" form">
+                    <form class="cmxform form-horizontal " id="commentForm" action="{% url 'hall_edit' h.id %}" method="post">
+                        {% csrf_token %}
+                        <div class="form-group ">
+                            <label for="" class="control-label col-lg-3">Hall Number</label>
+                            <div class="col-lg-6">
+                                <input class=" form-control" id="" name="hall_no" value="{{h.Hall_no}}"  type="text" required>
+                            </div>
+                        </div> 
+                        <div class="form-group ">
+                            <label for="" class="control-label col-lg-3">Capacity</label>
+                            <div class="col-lg-6">
+                                <input class=" form-control" id="" type="number" value="{{h.Capacity}}" name="capacity" required>
+                            </div>
+                        </div>                                        
+                        <div class="form-group" style="text-align: center;">
+                            <div class="col-lg-offset-3 col-lg-6">
+                                <button class="btn btn-primary" type="submit">Update</button>
+                                
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </section>
+    </div>
+</div>
+
+
+
+{% endfor %}
+{% else %}
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <section class="panel">
+            <header class="panel-heading">
+                Add Hall
+                <span class="tools pull-right">
+                    <a class="fa fa-chevron-down" href="javascript:;"></a>
+                    
+                 </span>
+            </header>
+            <div class="panel-body">
+                <div class=" form">
+                    <form class="cmxform form-horizontal " id="commentForm" action="{% url 'add_hall' %}" method="post">
+                        {% csrf_token %}
+                        <div class="form-group ">
+                            <label for="" class="control-label col-lg-3">Hall Number</label>
+                            <div class="col-lg-6">
+                                <input class=" form-control" id="" name="hall_no"  type="text" required>
+                            </div>
+                        </div> 
+                        <div class="form-group ">
+                            <label for="" class="control-label col-lg-3">Capacity</label>
+                            <div class="col-lg-6">
+                                <input class=" form-control" id="" type="number" name="capacity" required>
+                            </div>
+                        </div>                                        
+                        <div class="form-group" style="text-align: center;">
+                            <div class="col-lg-offset-3 col-lg-6">
+                                <button class="btn btn-primary" type="submit">Save</button>
+                                
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </section>
+    </div>
+</div>
+
+{% endif %}
+
+
+{% if messages %}
+{% for m in messages %}
+<script>
+alert("{{m}}")
+</script>
+{% endfor %}
+{% endif %}
+
+
+
+  
+
+{% endblock %}

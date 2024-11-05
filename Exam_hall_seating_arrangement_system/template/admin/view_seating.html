@@ -1,0 +1,104 @@
+{% extends 'admin/adminbase.html' %}
+{% block content %}
+
+<div class="table-agile-info">
+    <div class="row">
+        <form method="get" action="{% url 'search_seating' %}">
+      <div class="col-md-4">
+      
+          
+        <input type="date" name="search_date" class="form-control" placeholder="YYYY-MM-DD">
+      </div>
+      <div class="col-md-2">
+                          <button class="btn btn-success" type="submit">Go!</button>
+                        </div>     
+          </form>
+     
+      </div>
+    <div class="panel panel-default">
+       <div class="panel-heading">
+       Seating Arrangements
+       </div>
+       <div>
+         <table class="table" ui-jq="footable" ui-options='{
+           "paging": {
+             "enabled": true
+           },
+           "filtering": {
+             "enabled": true
+           },
+           "sorting": {
+             "enabled": true
+           }}'>
+           <thead>
+            <tr>
+              <th data-breakpoints="xs">Exam Date</th>
+              <th>Register Number</th>
+              <th>Semester</th>
+              <th>Hall Number</th>
+              <th>Seat Number</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for s in seat %}
+            <tr data-expanded="true">
+                <td>{{s.examid.Date_of_exam}}</td>
+                <td>{{s.studentid.Register_number}}</td>
+                <td>{{s.studentid.Semester}}</td>
+                <td>{{s.hallid.Hall_no}}</td>
+                <td>{{s.seat_no}}</td>
+                <td><a href="{% url 'seating_edit' s.id %}"><i class="fa fa-pencil" style="font-size: 2em;"></i></a></td>
+                <td><a href="" onclick="return confirm('Are you sure?')"><i class="fa fa-trash" style="font-size: 2em;color: red;"></i></a></td>
+            {% endfor %}      
+        </tbody>
+    </table>
+</div>
+</div>
+<footer class="panel-footer">
+   <div class="row">
+     
+     <div class="col-sm-5 text-center">
+       <small class="text-muted inline m-t-sm m-b-sm">
+           Page{{seat.number}} of {{seat.paginator.num_pages }}.
+       </small>
+   </div>
+   <div class="col-sm-7 text-right text-center-xs">                
+       <ul class="pagination pagination-sm m-t-none m-b-none">
+       {% if seat.has_previous %}
+       <li> <a href="?page=1">&laquo;</a></li>
+      <li><a href="?page={{seat.previous_page_number}}">{{seat.previous_page_number}}</a></li> 
+
+       {% endif %}
+
+       {% for num in seat.paginator.page_range %}
+       {% if seat.number == num %}
+     <li><a href="" class="active">{{ num }}</a></li>  
+       {% elif num > seat.number|add:-5 and seat < seat.number|add:5 %} <a href="?page={{ num }}">{{ num }}</a>
+           {% endif %}
+           {% endfor %}
+
+           {% if seat.has_next %}
+          <li> <a href="?page={{ seat.next_page_number }}">{{ seat.next_page_number }}</a></li>
+          <li><a href="?page={{ ca.paginator.num_pages }}"> &raquo;</a></li>
+           {% endif %}
+       </ul>
+   </div>
+</div>
+</footer>
+</div>
+</div>
+
+{% if messages %}
+{% for m in messages %}
+ <script>
+     alert("{{m}}")
+ </script>
+{% endfor %}
+{% endif %} 
+
+
+{% endblock %}
+
+
+

@@ -1,0 +1,130 @@
+{% extends 'admin/adminbase.html' %}
+{% block content %}
+
+
+
+    <script src="/static/web/js/jquery2.0.3.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#did").change(function(){
+                var id=$("#did").val();
+                $.ajax({
+                    url:"{% url 'get_sub' %}",
+                    data:{'id':id},
+                    success:function(data)
+                    {
+                    $('#subject').html(data);
+                    },
+                    error:function(error)
+                    {
+                        alert("wrong.."+error)
+                    }
+                    
+                })
+            })
+        })
+    </script>
+</head>
+<body>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <section class="panel">
+                <header class="panel-heading">
+                 Teacher Registration
+                    <span class="tools pull-right">
+                        <a class="fa fa-chevron-down" href="javascript:;"></a>
+                        
+                     </span>
+                </header>
+                <div class="panel-body">
+                    <div class=" form">
+                        <form class="cmxform form-horizontal " id="commentForm" action="{% url 'add_staff' %}" method="post">
+                            {% csrf_token %}
+                            <div class="form-group ">
+                                <label for="duration" class="control-label col-lg-3">First Name</label>
+                                <div class="col-lg-6">
+                                    <input class=" form-control" type="text" name="fname" id="" required>
+                                </div>
+                            </div>   
+                            <div class="form-group ">
+                                <label for="duration" class="control-label col-lg-3">Last Name</label>
+                                <div class="col-lg-6">
+                                    <input class=" form-control" type="text" name="lname" id="" required>
+                                </div>
+                            </div>  
+                            <div class="form-group ">
+                                <label for="duration" class="control-label col-lg-3">Gender</label>
+                                <div class="col-lg-6">
+                                    <input type="radio" required name="gender"  value="female">Female
+                                    <input type="radio" required name="gender" value="male">Male
+                                </div>
+                            </div>       
+                            <div class="form-group ">
+                                <label for="cname" class="control-label col-lg-3">Course</label>
+                                <div class="col-lg-6">
+                                    <select name="course" id="did" required class="form-control">
+                                        <option value="">select Course</option>
+                                        {% for d in de %}
+                                        <option value="{{d.id}}">{{d.course}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                           
+                            <div class="form-group ">
+                                <label for="subject" class="control-label col-lg-3">Subject</label>
+                                <div class="col-lg-6">
+                                    <select name="subject" required id="subject" class="form-control">
+                                        <option value="">select</option>
+                                         </select>
+                                </div>
+                            </div>
+                            <div class="form-group ">
+                                <label for="date" class="control-label col-lg-3">Contact</label>
+                                <div class="col-lg-6">
+                                    <input class=" form-control" type="number" name="contact" id="date" required>
+                                </div>
+                            </div> 
+                            <div class="form-group ">
+                                <label for="time" class="control-label col-lg-3">Email</label>
+                                <div class="col-lg-6">
+                                    <input class=" form-control" type="text" name="email" id="" required>
+                                </div>
+                            </div>   
+                            <div class="form-group ">
+                                <label for="duration" class="control-label col-lg-3">Username</label>
+                                <div class="col-lg-6">
+                                    <input class=" form-control" type="text" name="username" id="" required>
+                                </div>
+                            </div>    
+                            <div class="form-group ">
+                                <label for="duration" class="control-label col-lg-3">Password</label>
+                                <div class="col-lg-6">
+                                    <input class=" form-control" type="password" name="password" id="" required>
+                                </div>
+                            </div>                        
+                            <div class="form-group" style="text-align: center;">
+                                <div class="col-lg-offset-3 col-lg-6">
+                                    <button class="btn btn-primary" type="submit">Save</button>
+                                    
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+    
+                </div>
+            </section>
+        </div>
+    </div>
+    {% if messages %}
+    {% for m in messages %}
+    <script>
+     alert("{{m}}")
+     </script>
+ {% endfor %}
+ {% endif %}
+
+      
+      
+{% endblock %}

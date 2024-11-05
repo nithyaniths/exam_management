@@ -1,0 +1,81 @@
+{% extends 'student/studentbase.html' %}
+
+{% block content %}
+
+
+
+<div class="agile-grid">
+    <h2 class="w3ls_head text-danger">PROFILE</h2>
+    {% for s in stu %}
+    <div class="row">
+        <div class="col-md-4" style="text-align: end;">
+            <label>Register Number :</label> 
+        </div>
+        <div class="col-md-6">
+            <input type="text" class="form-control" readonly value="{{s.Register_number}}">
+        </div>
+    </div>
+    <div class="row" style="margin-top: 5px;">
+        <div class="col-md-4" style="text-align: end;">
+            <label for="">Name :</label> 
+        </div>
+        <div class="col-md-6">
+            <input type="text" class="form-control" readonly value="{{s.First_name}}  {{s.Last_name}}">
+        </div>
+    </div>
+    <div class="row" style="margin-top: 5px;">
+        <div class="col-md-4" style="text-align: end;">
+            <label for="">Mobile :</label>
+        </div>
+        <div class="col-md-6">
+            <input type="text" class="form-control" readonly value="{{s.Mobile}}">
+        </div>
+    </div>
+    <div class="row" style="margin-top: 5px;">
+        <div class="col-md-4" style="text-align: end;">
+            <label for="">Semester :</label>
+        </div>
+        <div class="col-md-6">
+            <input type="text" class="form-control" readonly value="{{s.Semester}}">
+        </div>
+    </div>
+    <div class="row" style="margin-top: 5px;">
+        <div class="col-md-4" style="text-align: end;">
+            <label for="">Department :</label> 
+        </div>
+        <div class="col-md-6">
+            <input type="text" class="form-control" readonly value="{{s.Department}}">
+        </div>
+    </div>
+    <div class="row" style="margin-top: 5px;">
+        <div class="col-md-4" style="text-align: end;">
+            <label for="">Address :</label> 
+        </div>
+        <div class="col-md-6">
+            <input type="text" class="form-control" readonly value="{{s.Address}}">
+        </div>
+    </div>
+    <div class="row" style="margin-top: 5px;">
+        <div class="col-md-4" style="text-align: end;">
+            <label for="">Email :</label>
+        </div>
+        <div class="col-md-6">
+            <input type="text" class="form-control" readonly value="{{s.Email}}">
+        </div>
+    </div>
+    <div class="row" style="margin-top: 5px;">
+        <div class="col-md-4" style="text-align: end;">
+            <label for="">Username :</label>
+        </div>
+        <div class="col-md-6">
+            <input type="text" class="form-control" readonly value="{{s.Loginid.Username}}">
+        </div>
+    </div>
+
+
+
+
+    {% endfor %}
+</div>
+
+{% endblock %}

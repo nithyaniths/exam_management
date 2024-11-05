@@ -1,0 +1,61 @@
+{% extends 'student/studentbase.html' %}
+
+{% block content %}
+
+
+
+
+<div class="table-agile-info">
+    <div class="panel panel-default">
+       <div class="panel-heading">
+     Seating Arrangement
+       </div>
+       <div>
+         <table class="table" ui-jq="footable" ui-options='{
+           "paging": {
+             "enabled": true
+           },
+           "filtering": {
+             "enabled": true
+           },
+           "sorting": {
+             "enabled": true
+           }}'>
+           <thead>
+             <tr>
+                <th data-breakpoints="xs">Subject</th>
+                <th>Exam Date</th>
+                <th>Time</th>
+                <th>Duration</th>
+                <th>Semester</th>
+                <th>Hall Number</th>
+                <th>Seat Number</th>
+
+             
+             </tr>
+           </thead>
+           <tbody>
+
+            {% for seating, exam in exams_with_seating %}
+    <tr data-expanded="true">
+        <td>{{ exam.subject.subject }}</td>  
+        <td>{{ seating.examid.Date_of_exam }}</td> 
+        <td>{{ exam.Time }}</td> 
+        <td>{{ exam.Duration }}</td> 
+        <td>{{ exam.Semester }}</td> 
+        <td>{{ seating.hallid.Hall_no }}</td>
+        <td>{{ seating.seat_no }}</td>  
+    </tr>
+{% endfor %}
+
+           </tbody>
+         </table>
+       </div>
+     </div>
+    
+
+    </div>
+
+
+
+{% endblock %}

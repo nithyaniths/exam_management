@@ -1,0 +1,17 @@
+
+{% if su %}
+
+<option value="">select</option>
+{% for s in su %}
+<option value="{{s.id}}">{{s.subject}}</option>
+{% endfor %}
+
+{% else %}
+
+
+{% for s in exam %}
+
+<input type="checkbox" name="subject" value="{{ s.subject.id }}"> {{ s.subject.subject }}<br>
+{% endfor %}
+
+{% endif %}

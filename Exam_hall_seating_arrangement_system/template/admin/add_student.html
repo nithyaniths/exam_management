@@ -1,0 +1,269 @@
+{% extends 'admin/adminbase.html' %}
+{% block content %}
+
+
+{% if st %}
+{% for s in st %}
+
+<div class="row">
+    <div class="col-lg-12">
+        <section class="panel">
+            <header class="panel-heading">
+                Modify Student
+                <span class="tools pull-right">
+                    <a class="fa fa-chevron-down" href="javascript:;"></a>
+                    
+                 </span>
+            </header>
+            <div class="panel-body">
+                <div class=" form">
+                    <form class="cmxform form-horizontal " id="commentForm" action="{% url 'edit_student' s.id %}" enctype="multipart/form-data"  method="post">
+                        {% csrf_token %}
+                        <div class="form-group ">
+                            <label for="cname" class="control-label col-lg-3">Register number</label>
+                            <div class="col-lg-6">
+                                <input type="text" class="form-control" name="register" value="{{s.Register_number}}" id="">
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <label for="" class="control-label col-lg-3">First Name</label>
+                            <div class="col-lg-6">
+                                <input type="text" class="form-control" name="fname" value="{{s.First_name}}" id="">
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <label for="" class="control-label col-lg-3">Last Name</label>
+                            <div class="col-lg-6">
+                                <input type="text" class="form-control" name="lname" value="{{s.Last_name}}" id="">
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <label for="" class="control-label col-lg-3">Photo</label>
+
+                            <div class="col-lg-6">
+                               
+            <input type="file" name="image" class="form-control" id="">
+                            </div>
+                            <div class="col-lg-3"> {% if s.Image %}
+                                <img src="{{s.Image.url}}" alt="" height="100px" width="100px">
+                                {% endif %}</div>
+                        </div>
+                        <div class="form-group ">
+                            <label for="subject" class="control-label col-lg-3">Departement</label>
+                            <div class="col-lg-6">
+                                <select name="department" id="" class="form-control">
+                                    <option value="{{s.Department}}">{{s.Department}}</option>
+                                    <option value="Civil Engineering">Civil Engineering</option>
+                                    <option value="Computer Science & engineering">Computer Science & Engineering</option>
+                                    <option value="Electronics & Communication Engineering">Electronics & Communication Engineering</option>
+                                    <option value="Electrical & Electronics Engineering">Electrical & Electronics Engineering</option>
+                                    <option value="Information Technology">Information Technology</option>
+                                    <option value="Departement of Computer Applications">Departement of Computer Applications</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <label for="date" class="control-label col-lg-3">Course</label>
+                            <div class="col-lg-6">
+                                <select name="course" id="" class="form-control">
+                                    <option value="{{s.course.id}}">{{s.course.course}}</option>
+                                    {% for c in co %}
+                                        <option value="{{c.id}}">{{c.course}}</option>
+                                    {% endfor %}
+                                </select>                           
+                             </div>
+                        </div> 
+                        <div class="form-group ">
+                            <label for="time" class="control-label col-lg-3">Semester</label>
+                            <div class="col-lg-6">
+                                <select name="semester" id="" class="form-control">
+                                    <option value="{{s.Semester}}">{{s.Semester}}</option>
+                                    <option value="I sem">I sem</option>
+                                    <option value="II sem">II sem</option>
+                                    <option value="III sem">III sem</option>
+                                    <option value="IV sem">IV sem</option>
+                                    <option value="V sem">V sem</option>
+                                    <option value="VI sem">VI sem</option>
+                                    <option value="VII sem">VII sem</option>
+                                    <option value="VIII sem">VIII sem</option>
+                                </select>                            
+                            </div>
+                        </div>   
+                        <div class="form-group ">
+                            <label for="duration" class="control-label col-lg-3">Username</label>
+                            <div class="col-lg-6">
+                                <input class="form-control" name="username" value="{{s.Loginid.Username}}" type="text" id="">
+                            </div>
+                        </div>  
+                        <div class="form-group ">
+                            <label for="duration" class="control-label col-lg-3">MailId</label>
+                            <div class="col-lg-6">
+                                <input class="form-control" type="text" name="mailid" value="{{s.Email}}" id="">
+                            </div>
+                        </div>  
+                        <div class="form-group ">
+                            <label for="duration" class="control-label col-lg-3">Mobile Number</label>
+                            <div class="col-lg-6">
+                                <input class="form-control" type="text" name="mobile" value="{{s.Mobile}}" id="">
+                            </div>
+                        </div>    
+                        <div class="form-group ">
+                            <label for="" class="control-label col-lg-3">Address</label>
+                            <div class="col-lg-6">
+                                <textarea name="address" id="" class="form-control" cols="30" rows="10">{{s.Address}}</textarea>
+                            </div>
+                        </div>                       
+                        <div class="form-group">
+                            <div class="col-lg-offset-3 col-lg-3">
+                                <button class="btn btn-primary form-control" type="submit">Update</button>
+                                
+                            </div>
+                            <div class="col-lg-3">
+                                <a href="{% url 'manage_student' %}" class="btn btn-danger form-control">Cancel</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </section>
+    </div>
+</div>
+
+{% endfor %}
+
+{% else %}
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <section class="panel">
+            <header class="panel-heading">
+                Register Student
+                <span class="tools pull-right">
+                    <a class="fa fa-chevron-down" href="javascript:;"></a>
+                    
+                 </span>
+            </header>
+            <div class="panel-body">
+                <div class=" form">
+                    <form class="cmxform form-horizontal " id="commentForm" action="{% url 'add_student' %}" enctype="multipart/form-data"  method="post">
+                        {% csrf_token %}
+                        <div class="form-group ">
+                            <label for="" class="control-label col-lg-3">Register number</label>
+                            <div class="col-lg-6">
+                                <input type="text" class="form-control" name="register" required id="">
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <label for="" class="control-label col-lg-3">First Name</label>
+                            <div class="col-lg-6">
+                                <input type="text" class="form-control" name="fname" required id="">
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <label for="" class="control-label col-lg-3">Last Name</label>
+                            <div class="col-lg-6">
+                                <input type="text" class="form-control" name="lname" required id="">
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <label for="" class="control-label col-lg-3">Photo</label>
+
+                            <div class="col-lg-6">
+                               
+            <input type="file" name="image" class="form-control" id="">
+                            </div>
+                           
+                        </div>
+                        <div class="form-group ">
+                            <label for="subject" class="control-label col-lg-3">Departement</label>
+                            <div class="col-lg-6">
+                                <select name="department" id="" class="form-control">
+                                    <option value="">--select--</option>
+                                    <option value="Civil Engineering">Civil Engineering</option>
+                                    <option value="Computer Science & engineering">Computer Science & Engineering</option>
+                                    <option value="Electronics & Communication Engineering">Electronics & Communication Engineering</option>
+                                    <option value="Electrical & Electronics Engineering">Electrical & Electronics Engineering</option>
+                                    <option value="Information Technology">Information Technology</option>
+                                    <option value="Departement of Computer Applications">Departement of Computer Applications</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <label for="" class="control-label col-lg-3">Course</label>
+                            <div class="col-lg-6">
+                                <select name="course" id="" class="form-control">
+                                    <option value="">--select--</option>
+                                    {% for c in co %}
+                                        <option value="{{c.id}}">{{c.course}}</option>
+                                    {% endfor %}
+                                </select>                         
+                             </div>
+                        </div> 
+                        <div class="form-group ">
+                            <label for="time" class="control-label col-lg-3">Semester</label>
+                            <div class="col-lg-6">
+                                <select name="semester" id="" class="form-control">
+                                    <option value="">--select--</option>
+                                    <option value="I sem">I sem</option>
+                                    <option value="II sem">II sem</option>
+                                    <option value="III sem">III sem</option>
+                                    <option value="IV sem">IV sem</option>
+                                    <option value="V sem">V sem</option>
+                                    <option value="VI sem">VI sem</option>
+                                    <option value="VII sem">VII sem</option>
+                                    <option value="VIII sem">VIII sem</option>
+                                </select>                           
+                            </div>
+                        </div>   
+                        <div class="form-group ">
+                            <label for="duration" class="control-label col-lg-3">Username</label>
+                            <div class="col-lg-6">
+                                <input class="form-control" name="username" required type="text" id="">
+                            </div>
+                        </div>  
+                        <div class="form-group ">
+                            <label for="" class="control-label col-lg-3">MailId</label>
+                            <div class="col-lg-6">
+                                <input class="form-control" type="text" name="mailid"  required id="">
+                            </div>
+                        </div>  
+                        <div class="form-group ">
+                            <label for="" class="control-label col-lg-3">Mobile Number</label>
+                            <div class="col-lg-6">
+                                <input class="form-control" type="text" name="mobile" required id="">
+                            </div>
+                        </div>    
+                        <div class="form-group ">
+                            <label for="" class="control-label col-lg-3">Address</label>
+                            <div class="col-lg-6">
+                                <textarea name="address" id="" class="form-control" cols="30" rows="10"></textarea>
+                            </div>
+                        </div> 
+                        <div class="form-group ">
+                            <label for="" class="control-label col-lg-3">Password</label>
+                            <div class="col-lg-6">
+                                <input type="password" class="form-control" name="password" id="">
+                            </div>
+                        </div>                       
+                        <div class="form-group">
+                            <div class="col-lg-offset-3 col-lg-3">
+                                <button class="btn btn-primary form-control" type="submit">Enroll Student</button>
+                                
+                            </div>
+                     
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </section>
+    </div>
+</div>
+
+
+{% endif %}
+
+
+{% endblock %}

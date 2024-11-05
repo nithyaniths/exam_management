@@ -1,0 +1,126 @@
+{% extends 'admin/adminbase.html' %}
+{% block content %}
+
+
+    <script src="/static/web/js/jquery2.0.3.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#did").change(function(){
+                var id=$("#did").val();
+                $.ajax({
+                    url:"{% url 'get_sub' %}",
+                    data:{'id':id},
+                    success:function(data)
+                    {
+                    $('#subject').html(data);
+                    },
+                    error:function(error)
+                    {
+                        alert("wrong.."+error)
+                    }
+                    
+                })
+            })
+        })
+    </script>
+</head>
+<body>
+
+
+
+    <div class="row">
+        <div class="col-lg-12">
+            <section class="panel">
+                <header class="panel-heading">
+                  Modify Teacher
+                    <span class="tools pull-right">
+                        <a class="fa fa-chevron-down" href="javascript:;"></a>
+                        
+                     </span>
+                </header>
+                <div class="panel-body">
+                    <div class=" form">
+                        {% for s in st %}
+                        <form class="cmxform form-horizontal " id="commentForm" action="{% url 'edit_staff' s.id %}" method="post">
+                            {% csrf_token %}
+                            <div class="form-group ">
+                                <label for="" class="control-label col-lg-3">First Name</label>
+                                <div class="col-lg-6">
+                                    <input class=" form-control" type="text" value="{{s.First_name}}" name="fname" id="" required>
+                                </div>
+                            </div>   
+                            <div class="form-group ">
+                                <label for="" class="control-label col-lg-3">Last Name</label>
+                                <div class="col-lg-6">
+                                    <input class=" form-control" type="text" value="{{s.Last_name}}" name="lname" id="" required>
+                                </div>
+                            </div>  
+                            <div class="form-group ">
+                                <label for="" class="control-label col-lg-3">Gender</label>
+                                <div class="col-lg-6">
+                                    {% if s.Gender == "female" %}
+                <input type="radio" name="gender" checked="true" value="female">Female
+                <input type="radio" name="gender" value="male">Male
+                {% else %}
+                <input type="radio" name="gender"  value="female">Female
+                <input type="radio" name="gender" checked="true" value="male">Male
+                {% endif %}
+                                </div>
+                            </div>       
+                            <div class="form-group ">
+                                <label for="cname" class="control-label col-lg-3">Course</label>
+                                <div class="col-lg-6">
+                                    <select name="course" id="did" class="form-control">
+                                        <option value="{{s.Subjectid.courseid.id}}">{{s.Subjectid.courseid.course}}</option>
+                                        {% for c in co %}
+                                        <option value="{{c.id}}">{{c.course}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                           
+                            <div class="form-group ">
+                                <label for="subject" class="control-label col-lg-3">Subject</label>
+                                <div class="col-lg-6">
+                                    <select name="subject" id="subject" class="form-control">
+                                        <option value="{{s.Subjectid.id}}">{{s.Subjectid.subject}}</option>
+                                         </select>
+                                </div>
+                            </div>
+                            <div class="form-group ">
+                                <label for="" class="control-label col-lg-3">Contact</label>
+                                <div class="col-lg-6">
+                                    <input class=" form-control" type="number" name="contact" value="{{s.Contact}}" id="" required>
+                                </div>
+                            </div> 
+                            <div class="form-group ">
+                                <label for="time" class="control-label col-lg-3">Email</label>
+                                <div class="col-lg-6">
+                                    <input class=" form-control" value="{{s.Email}}" type="text" name="email" id="" required>
+                                </div>
+                            </div>   
+                            <div class="form-group ">
+                                <label for="" class="control-label col-lg-3">Username</label>
+                                <div class="col-lg-6">
+                                    <input class=" form-control" type="text" value="{{s.Loginid.Username}}" name="username" id="" required>
+                                </div>
+                            </div>                           
+                            <div class="form-group" style="text-align: center;">
+                                <div class="col-lg-offset-3 col-lg-6">
+                                    <button class="btn btn-primary" type="submit">Update</button>
+                                    
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+    
+                </div>
+            </section>
+        </div>
+    </div>
+
+
+{% endfor %}
+
+
+{% endblock %}

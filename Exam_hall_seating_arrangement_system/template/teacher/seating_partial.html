@@ -1,0 +1,50 @@
+{% extends 'teacher/teacherbase.html' %}
+
+{% block content %}
+
+
+
+
+<div class="table-agile-info">
+    <div class="panel panel-default">
+       <div class="panel-heading">
+      Seating Details
+       </div>
+       <div>
+         <table class="table" ui-jq="footable" ui-options='{
+           "paging": {
+             "enabled": true
+           },
+           "filtering": {
+             "enabled": true
+           },
+           "sorting": {
+             "enabled": true
+           }}'>
+           <thead>
+             <tr>
+               <th data-breakpoints="xs">Seat Number</th>
+               <th>Register Number</th>
+        <th>Student Name</th>
+        <th>Semester</th>
+        <th>Departement</th>
+             </tr>
+           </thead>
+           <tbody>
+            {% for s in seat %}
+
+             <tr data-expanded="true">
+                <td>{{s.seat_no}}</td>
+                <td>{{s.studentid.Register_number}}</td>
+                <td>{{s.studentid.First_name}} {{s.studentid.Last_name}}</td>
+                <td>{{s.studentid.Semester}}</td>
+                <td>{{s.studentid.Department}}</td>
+                   
+                </tr>
+            {% endfor %}
+           </tbody>
+         </table>
+       </div>
+     </div>
+
+{% endblock %}

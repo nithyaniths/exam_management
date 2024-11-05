@@ -1,0 +1,81 @@
+{% extends 'admin/adminbase.html' %}
+{% block content %}
+
+<div class="table-agile-info">
+    <div class="panel panel-default">
+       <div class="panel-heading">
+       Allocation Details
+       </div>
+       <div>
+         <table class="table" ui-jq="footable" ui-options='{
+           "paging": {
+             "enabled": true
+           },
+           "filtering": {
+             "enabled": true
+           },
+           "sorting": {
+             "enabled": true
+           }}'>
+           <thead>
+             <tr>
+               <th data-breakpoints="xs">Exam Date</th>
+               <th>Hall Number</th>
+               <th>Invigilator Name</th>
+               <th>Subjects</th>
+               <th>Shift</th>
+             </tr>
+           </thead>
+           <tbody>
+            {% for a in all %}
+             <tr data-expanded="true">
+                <td>{{a.Date.Date_of_exam}}</td>
+                <td>{{a.Hallid.Hall_no}}</td>
+                <td>{{a.Invigilator_name.First_name}} {{a.Invigilator_name.Last_name}}</td>
+                <td> {% for subject_name in a.Subject_ids %}
+                  {{ subject_name }}<br>
+              {% endfor %}</td>
+              <td>{{a.Shift}}</td>
+                <td><a href="{% url 'allocation_edit' a.id %}"><i class="fa fa-pencil" style="font-size: 2em;"></i></a></td>
+                <td><a href="#" onclick="return confirm('Are you sure?')"><i class="fa fa-trash" style="font-size: 2em;color: red;"></i></a></td>
+             </tr>
+             {% endfor %}
+           </tbody>
+         </table>
+       </div>
+     </div>
+     <footer class="panel-footer">
+        <div class="row">
+          
+          <div class="col-sm-5 text-center">
+            <small class="text-muted inline m-t-sm m-b-sm">
+                Page{{all.number}} of {{all.paginator.num_pages }}.
+            </small>
+        </div>
+        <div class="col-sm-7 text-right text-center-xs">                
+            <ul class="pagination pagination-sm m-t-none m-b-none">
+            {% if all.has_previous %}
+            <li> <a href="?page=1">&laquo;</a></li>
+           <li><a href="?page={{all.previous_page_number}}">{{all.previous_page_number}}</a></li> 
+
+            {% endif %}
+
+            {% for num in all.paginator.page_range %}
+            {% if all.number == num %}
+          <li><a href="" class="active">{{ num }}</a></li>  
+            {% elif num > all.number|add:-5 and all < all.number|add:5 %} <a href="?page={{ num }}">{{ num }}</a>
+                {% endif %}
+                {% endfor %}
+
+                {% if all.has_next %}
+               <li> <a href="?page={{ all.next_page_number }}">{{ all.next_page_number }}</a></li>
+               <li><a href="?page={{ ca.paginator.num_pages }}"> &raquo;</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+     </footer>
+    </div>
+   </div>
+
+    {% endblock %}

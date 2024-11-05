@@ -1,0 +1,95 @@
+{% extends 'admin/adminbase.html' %}
+{% block content %}
+
+<div class="table-agile-info">
+    <div class="panel panel-default">
+       <div class="panel-heading">
+        Staff Details
+       </div>
+       <div>
+         <table class="table" ui-jq="footable" ui-options='{
+           "paging": {
+             "enabled": true
+           },
+           "filtering": {
+             "enabled": true
+           },
+           "sorting": {
+             "enabled": true
+           }}'>
+
+           <thead>
+            <tr>
+              <th data-breakpoints="xs">Name</th>
+              <th>Gender</th>
+                <th>Course</th>
+                <th>Subject</th>
+                <th>Contact</th>
+                <th>Email</th>
+                <th>Username</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% if staff %}
+            {% for s in staff %}
+
+                <tr data-expanded="true">
+              
+                    <td>{{s.First_name}} {{s.Last_name}}</td>
+                <td>{{s.Gender}}</td>
+                <td>{{s.Subjectid.courseid.course}}</td>
+                <td>{{s.Subjectid.subject}}</td>
+                <td>{{s.Contact}}</td>
+                <td>{{s.Email}}</td>
+                <td>{{s.Loginid.Username}}</td>
+                   
+                    <td><a href="{% url 'edit_staff' s.id %}"><i class="fa fa-pencil" style="font-size: 2em;"></i></a></td>
+                    <td><a href="{% url 'delete_staff' s.id %}" onclick="return confirm('Are you sure to delete this record?')"><i class="fa fa-trash" style="font-size: 2em;color: red;"></i></a></td>
+               
+                 </tr>
+      
+            {% endfor %}
+            {% else %}
+            <tr>
+                <td colspan="7" style="text-align: center;">No Teacher Details</td>
+            </tr>
+            {% endif %}
+        </tbody>
+    </table>
+</div>
+</div>
+<footer class="panel-footer">
+   <div class="row">
+     
+     <div class="col-sm-5 text-center">
+       <small class="text-muted inline m-t-sm m-b-sm">
+           Page{{staff.number}} of {{staff.paginator.num_pages }}.
+       </small>
+   </div>
+   <div class="col-sm-7 text-right text-center-xs">                
+       <ul class="pagination pagination-sm m-t-none m-b-none">
+       {% if staff.has_previous %}
+       <li> <a href="?page=1">&laquo;</a></li>
+      <li><a href="?page={{staff.previous_page_number}}">{{staff.previous_page_number}}</a></li> 
+
+       {% endif %}
+
+       {% for num in staff.paginator.page_range %}
+       {% if staff.number == num %}
+     <li><a href="" class="active">{{ num }}</a></li>  
+       {% elif num > staff.number|add:-5 and ex < staff.number|add:5 %} <a href="?page={{ num }}">{{ num }}</a>
+           {% endif %}
+           {% endfor %}
+
+           {% if staff.has_next %}
+          <li> <a href="?page={{ staff.next_page_number }}">{{ staff.next_page_number }}</a></li>
+          <li><a href="?page={{ staff.paginator.num_pages }}"> &raquo;</a></li>
+           {% endif %}
+       </ul>
+   </div>
+</div>
+</footer>
+</div>
+</div>
+
+{% endblock %}

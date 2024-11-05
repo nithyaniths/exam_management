@@ -1,0 +1,86 @@
+{% extends 'admin/adminbase.html' %}
+{% block content %}
+
+<div class="table-agile-info">
+    <div class="panel panel-default">
+       <div class="panel-heading">
+       Subjects
+       </div>
+       <div>
+         <table class="table" ui-jq="footable" ui-options='{
+           "paging": {
+             "enabled": true
+           },
+           "filtering": {
+             "enabled": true
+           },
+           "sorting": {
+             "enabled": true
+           }}'>
+           <thead>
+            <tr>
+              <th data-breakpoints="xs">ID</th>
+              <th>Subject</th>
+              <th>Course</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for s in subject %}
+            <tr data-expanded="true">
+                <td>{{s.id}}</td>
+                <td>{{s.subject}}</td>
+                <td>{{s.courseid.course}}</td>
+                <td><a href="{% url 'edit_subject' s.id %}"><i class="fa fa-pencil" style="font-size: 2em;"></i></a></td>
+                <td><a href="{% url 'subject_del' s.id %}" onclick="return confirm('Are you sure?')"><i class="fa fa-trash" style="font-size: 2em;color: red;"></i></a></td>
+            {% endfor %}      
+        </tbody>
+    </table>
+</div>
+</div>
+<footer class="panel-footer">
+   <div class="row">
+     
+     <div class="col-sm-5 text-center">
+       <small class="text-muted inline m-t-sm m-b-sm">
+           Page{{subject.number}} of {{subject.paginator.num_pages }}.
+       </small>
+   </div>
+   <div class="col-sm-7 text-right text-center-xs">                
+       <ul class="pagination pagination-sm m-t-none m-b-none">
+       {% if subject.has_previous %}
+       <li> <a href="?page=1">&laquo;</a></li>
+      <li><a href="?page={{subject.previous_page_number}}">{{subject.previous_page_number}}</a></li> 
+
+       {% endif %}
+
+       {% for num in subject.paginator.page_range %}
+       {% if subject.number == num %}
+     <li><a href="" class="active">{{ num }}</a></li>  
+       {% elif num > subject.number|add:-5 and subject < subject.number|add:5 %} <a href="?page={{ num }}">{{ num }}</a>
+           {% endif %}
+           {% endfor %}
+
+           {% if subject.has_next %}
+          <li> <a href="?page={{ subject.next_page_number }}">{{ subject.next_page_number }}</a></li>
+          <li><a href="?page={{ ca.paginator.num_pages }}"> &raquo;</a></li>
+           {% endif %}
+       </ul>
+   </div>
+</div>
+</footer>
+</div>
+</div>
+
+
+
+
+{% if messages %}
+{% for m in messages %}
+<script>
+ alert("{{m}}")
+ </script>
+{% endfor %}
+{% endif %}
+
+{% endblock %}

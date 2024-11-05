@@ -1,0 +1,118 @@
+{% extends 'admin/adminbase.html' %}
+{% block content %}
+
+    <script src="/static/web/js/jquery2.0.3.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('.btn_details').click(function(){
+                var id=$(this).data('id')
+                $.ajax({
+                    url:"{% url 'get_details' %}",
+                    data:{'st':id},
+                    success:function(data)
+                    {
+                        $("#div_id").empty()
+                        $("#div_id").append(data)
+                    }
+                })
+            })
+        })
+    </script>
+
+<div class="table-agile-info">
+    <div class="panel panel-default">
+       <div class="panel-heading">
+       Student Details
+       </div>
+       <div>
+         <table class="table" ui-jq="footable" ui-options='{
+           "paging": {
+             "enabled": true
+           },
+           "filtering": {
+             "enabled": true
+           },
+           "sorting": {
+             "enabled": true
+           }}'>
+           <thead>
+            <tr>
+                <th data-breakpoints="xs">Register number</th>
+                <th>Name</th>
+                <th>Department</th>          
+                <th>Email</th>
+               
+                <th></th>
+              </tr>
+            </thead>
+        <tbody>
+            {% if st %}
+            {% for e in st %}
+
+            <tr data-expanded="true">
+                <td>{{e.Register_number}}</td>
+                <td>{{e.First_name}} {{e.Last_name}}</td>
+                <td>{{e.Department}}</td>
+                <td>{{e.Email}}</td>
+                <td><button class="btn_details btn btn-primary" data-id="{{e.id}}">Details</button></td>
+                {% endfor %}
+                {% else %}
+                <tr>
+                    <td colspan="7" style="text-align: center;">Exam details is empty</td>
+                </tr>
+                {% endif %}
+            </tr>
+        </tbody>
+    </table>
+</div>
+</div>
+<div id="div_id" style="border: 2px solid silver;padding-bottom: 10px;"></div>
+
+<footer class="panel-footer">
+    <div class="row">
+      
+      <div class="col-sm-5 text-center">
+        <small class="text-muted inline m-t-sm m-b-sm">
+            Page{{st.number}} of {{st.paginator.num_pages }}.
+        </small>
+    </div>
+    <div class="col-sm-7 text-right text-center-xs">                
+        <ul class="pagination pagination-sm m-t-none m-b-none">
+        {% if st.has_previous %}
+        <li> <a href="?page=1">&laquo;</a></li>
+       <li><a href="?page={{st.previous_page_number}}">{{st.previous_page_number}}</a></li> 
+ 
+        {% endif %}
+ 
+        {% for num in st.paginator.page_range %}
+        {% if st.number == num %}
+      <li><a href="" class="active">{{ num }}</a></li>  
+        {% elif num > st.number|add:-5 and st < st.number|add:5 %} <a href="?page={{ num }}">{{ num }}</a>
+            {% endif %}
+            {% endfor %}
+ 
+            {% if st.has_next %}
+           <li> <a href="?page={{ st.next_page_number }}">{{ st.next_page_number }}</a></li>
+           <li><a href="?page={{ ca.paginator.num_pages }}"> &raquo;</a></li>
+            {% endif %}
+        </ul>
+    </div>
+ </div>
+
+
+ </footer>
+ </div>
+
+ 
+{% if messages %}
+{% for m in messages %}
+<script>
+    alert('{{m}}')
+</script>
+
+
+{% endfor %}
+{% endif %}
+           
+   
+{% endblock %}

@@ -1,0 +1,211 @@
+{% extends 'admin/adminbase.html' %}
+{% block content %}
+
+    <script type="text/javascript">
+        window.onload=function(){
+            var today=new Date().toISOString().split('T')[0];
+            document.getElementsByName("Date")[0].setAttribute('min',today);
+        }
+    </script>
+
+<script src="/static/web/js/jquery2.0.3.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $("#did").change(function(){
+            var id=$("#did").val();
+            $.ajax({
+                url:"{% url 'get_sub' %}",
+                data:{'id':id},
+                success:function(data)
+                {
+                $('#subject').html(data);
+                },
+                error:function(error)
+                {
+                    alert("wrong.."+error)
+                }
+                
+            })
+        })
+    })
+</script>
+</head>
+<body>
+
+    {% if ex %}
+{% for e in ex %}
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <section class="panel">
+            <header class="panel-heading">
+                Modify Exam
+                <span class="tools pull-right">
+                    <a class="fa fa-chevron-down" href="javascript:;"></a>
+                    
+                 </span>
+            </header>
+            <div class="panel-body">
+                <div class=" form">
+                    <form class="cmxform form-horizontal " id="commentForm" action="{% url 'edit_exam' e.id %}"  method="post">
+                        {% csrf_token %}
+                        <div class="form-group ">
+                            <label for="cname" class="control-label col-lg-3">Semester</label>
+                            <div class="col-lg-6">
+                                <select name="semester" id="" class="form-control">
+                                    <option value="{{e.Semester}}">{{e.Semester}}</option>
+                                    <option value="I sem">I sem</option>
+                                    <option value="II sem">II sem</option>
+                                    <option value="III sem">III sem</option>
+                                    <option value="IV sem">IV sem</option>
+                                    <option value="V sem">V sem</option>
+                                    <option value="VI sem">VI sem</option>
+                                    <option value="VII sem">VII sem</option>
+                                    <option value="VIII sem">VIII sem</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <label for="cname" class="control-label col-lg-3">Course</label>
+                            <div class="col-lg-6">
+                                <select name="course" class="form-control" id="did">
+                                    <option value="{{e.subject.courseid.id}}">{{e.subject.courseid.course}}</option>
+                                    {% for d in co %}
+                                    <option value="{{d.id}}">{{d.course}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                       
+                        <div class="form-group ">
+                            <label for="subject" class="control-label col-lg-3">Subject</label>
+                            <div class="col-lg-6">
+                                <select name="subject" id="subject" class="form-control">
+                                    <option value="{{e.subject.id}}">{{e.subject.subject}}</option>
+                                     </select>
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <label for="date" class="control-label col-lg-3">Date</label>
+                            <div class="col-lg-6">
+                                <input class="form-control" type="date" name="Date" value="{{ e.Date.Date_of_exam|date:'Y-m-d' }}" id="date" required>
+                            </div>
+                        </div> 
+                        <div class="form-group ">
+                            <label for="time" class="control-label col-lg-3">Time</label>
+                            <div class="col-lg-6">
+                                <input class=" form-control" type="time" value="{{time}}" name="time" id="" required="">
+                            </div>
+                        </div>   
+                        <div class="form-group ">
+                            <label for="duration" class="control-label col-lg-3">Duration</label>
+                            <div class="col-lg-6">
+                                <input class=" form-control" value="{{e.Duration}}" type="text" name="duration" id="" required="">
+                            </div>
+                        </div>                        
+                        <div class="form-group">
+                            <div class="col-lg-offset-3 col-lg-3">
+                                <button class="btn btn-primary form-control" type="submit">Update</button>
+                                
+                            </div>
+                            <div class="col-lg-3">
+                                <a href="{% url 'exam_management' %}" class="btn btn-danger form-control">Cancel</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </section>
+    </div>
+</div>
+
+{% endfor %}
+{% else %}
+
+<div class="row">
+    <div class="col-lg-12">
+        <section class="panel">
+            <header class="panel-heading">
+                Add Exam
+                <span class="tools pull-right">
+                    <a class="fa fa-chevron-down" href="javascript:;"></a>
+                    
+                 </span>
+            </header>
+            <div class="panel-body">
+                <div class=" form">
+                    <form class="cmxform form-horizontal " id="commentForm" action="{% url 'add_exam' %}"  method="post">
+                        {% csrf_token %}
+                        <div class="form-group ">
+                            <label for="cname" class="control-label col-lg-3">Semester</label>
+                            <div class="col-lg-6">
+                                <select name="semester" id="" class="form-control">
+                                    <option value="">--select--</option>
+                                    <option value="I sem">I sem</option>
+                                    <option value="II sem">II sem</option>
+                                    <option value="III sem">III sem</option>
+                                    <option value="IV sem">IV sem</option>
+                                    <option value="V sem">V sem</option>
+                                    <option value="VI sem">VI sem</option>
+                                    <option value="VII sem">VII sem</option>
+                                    <option value="VIII sem">VIII sem</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <label for="cname" class="control-label col-lg-3">Course</label>
+                            <div class="col-lg-6">
+                                <select name="course" id="did" class="form-control">
+                                    <option value="">select Course</option>
+                                    {% for d in co %}
+                                    <option value="{{d.id}}">{{d.course}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                       
+                        <div class="form-group ">
+                            <label for="subject" class="control-label col-lg-3">Subject</label>
+                            <div class="col-lg-6">
+                                <select name="subject" id="subject" class="form-control">
+                                    <option value="">select</option>
+                                     </select>
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <label for="date" class="control-label col-lg-3">Date</label>
+                            <div class="col-lg-6">
+                                <input class=" form-control" type="date" name="Date" id="date" required="">
+                            </div>
+                        </div> 
+                        <div class="form-group ">
+                            <label for="time" class="control-label col-lg-3">Time</label>
+                            <div class="col-lg-6">
+                                <input class=" form-control" type="time" name="time" id="" required="">
+                            </div>
+                        </div>   
+                        <div class="form-group ">
+                            <label for="duration" class="control-label col-lg-3">Duration</label>
+                            <div class="col-lg-6">
+                                <input class=" form-control" type="text" name="duration" id="" required="">
+                            </div>
+                        </div>                        
+                        <div class="form-group" style="text-align: center;">
+                            <div class="col-lg-offset-3 col-lg-6">
+                                <button class="btn btn-primary" type="submit">Save</button>
+                                
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </section>
+    </div>
+</div>
+{% endif %}
+
+
+{% endblock %}

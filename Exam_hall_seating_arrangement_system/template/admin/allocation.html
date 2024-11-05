@@ -1,0 +1,139 @@
+{% extends 'admin/adminbase.html' %}
+{% block content %}
+
+    <script src="/static/web/js/jquery2.0.3.min.js"></script>
+  <script>
+    $(document).ready(function(){
+        $("#date").change(function(){
+            var date=$("#date").val();
+            $.ajax({
+                url:"{% url 'allo_sub' %}",
+                data:{'da':date},
+                success:function(data)
+                {
+                    $("#subject").html(data)
+                },
+                error:function()
+                {
+                    alert("no subject o display");
+                }
+            })
+        })
+    })
+  </script>
+<body>
+    <div class="row">
+        <div class="col-lg-12">
+            <section class="panel">
+                <header class="panel-heading">
+                    Add Allocation
+                    <span class="tools pull-right">
+                        <a class="fa fa-chevron-down" href="javascript:;"></a>           
+                     </span>
+                </header>
+                <div class="panel-body">
+                    <div class=" form">
+                        <form class="cmxform form-horizontal" id="commentForm" action="{% url 'allocation' %}"  method="post">
+                            {% csrf_token %}
+
+                            <div class="form-group ">
+                                <label for="date" class="control-label col-lg-3">Exam Date</label>
+                                <div class="col-lg-6">
+                                    <input class=" form-control" type="date" name="Date" id="date" required="">
+                                </div>
+                            </div>   
+                            <div class="form-group ">
+                                <label for="date" class="control-label col-lg-3">Subject</label>
+                                <div class="col-lg-6" id="subject">
+                                   
+                                </div>
+                            </div>   
+                            <div class="form-group ">
+                                <label for="cname" class="control-label col-lg-3">Shift</label>
+                                <div class="col-lg-6">
+                                    <select name="shift" class="form-control">
+                                        <option value="">select session</option>
+                                        <option value="FN">AN</option>
+                                        <option value="AN">FN</option>
+                                    </select>
+                                </div>
+                            </div>
+                           
+                            <div class="form-group ">
+                                <label for="subject" class="control-label col-lg-3">Invigilator name</label>
+                                <div class="col-lg-6">
+                                    <select name="name"  class="form-control">
+                                        <option value="">select</option>
+                                        {% for i in inv %}
+                                        <option value="{{i.id}}">{{i.First_name}}  {{i.Last_name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group ">
+                                <label for="date" class="control-label col-lg-3">Hall No</label>
+                                <div class="col-lg-6">
+                                   <select name="hall" class="form-control" id="">
+                                    <option value="">select hall</option>
+                                    {% for h in ha %}
+                                    <option value="{{h.id}}">{{h.Hall_no}}</option>
+                                    {% endfor %}
+                                   </select>
+                                </div>
+                            </div> 
+                           
+                 
+                            <div class="form-group" style="text-align: center;">
+                                <div class="col-lg-offset-3 col-lg-6">
+                                    <button class="btn btn-primary" type="submit">Assign</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>    
+
+
+    {% endblock %}
+
+    <form method="post">
+        {% csrf_token %}
+    <table>
+        <tr>
+            <th>Exam Date</th>
+            <td><input></td>
+        </tr>
+        <tr>
+            <th>Subject</th>
+            <td id="subject"></td>
+        </tr>
+        <tr>
+            <th>Shift</th>
+            <td><select name="shift">
+                <option value>---select---</option>
+                
+            </select></td>
+        </tr>
+        <tr>
+            <th>Invigilator name</th>
+            <td><select name="name" id="">
+                <option value="">---select---</option>
+                
+            </select></td>
+        </tr>
+        <tr>
+            <th>Hall No</th>
+            <td><select name="hall" id="">
+                <option value="">---select---</option>
+               
+            </select></td>
+        </tr>
+        <tr>
+            <th></th>
+            <td><input type="submit" value="Assign"></td>
+        </tr>
+    </table>
+
+

@@ -1,0 +1,16 @@
+<table class="table">
+    <tr>
+        <th>Subject</th>
+        <th>Time</th>
+        <th>Duration</th>
+        <th>Semester</th>
+    </tr>
+    {% for e in exam %}
+    <tr>
+        <td>{{e.subject.subject}}</td>
+        <td>{{e.Time}}</td>
+        <td>{{e.Duration}}</td>
+        <td>{{e.Semester}}</td>
+    </tr>
+    {% endfor %}
+</table>
